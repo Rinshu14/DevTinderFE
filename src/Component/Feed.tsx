@@ -9,14 +9,14 @@ const Feed = () => {
  
   const dispatch = UseAppDispatch();
   const userName=UseAppSelector((state)=>state.User?.user?.firstName)
-console.log(userName)
+// console.log(userName)
   const handleClick = () => {
-    dispatch(setUser({
-      isLoggedIn:true,
-      firstName: "Rinshu",
-      lastName: "Rajput",
-      email: "Rinshu@gmail.com",
-    }))
+    // dispatch(setUser({
+    //   isLoggedIn:true,
+    //   firstName: "Rinshu",
+    //   lastName: "Rajput",
+    //   email: "Rinshu@gmail.com",
+    // }))
   }
 
   return (

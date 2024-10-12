@@ -1,6 +1,7 @@
 
 import SignUpForm from '../Component/SignUpForm'
 import { BrowserRouter, Route, Routes, Navigate } from 'react-router-dom'
+import Login from '../Component/Login'
 
 
 const PublicRoutes = () => {
@@ -10,7 +11,7 @@ const PublicRoutes = () => {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<SignUpForm />} />
-          <Route path="/login" element={<SignUpForm />} />
+          <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<SignUpForm />} />
           <Route path="*" element={<Navigate to="/login" />} />
         </Routes>

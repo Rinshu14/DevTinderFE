@@ -28,7 +28,7 @@ const SignUpForm = () => {
 
     return (
 
-        <div className="card bg-base-300 w-96 shadow-xl ">
+        <div className="card bg-base-300 w-96 shadow-xl m-auto my-20 ">
 
             <div className="card-body items-center text-center">
                 <InputBox placeholder="UserName" type="text" validate={usernameValidator} ref={userNameRef} />

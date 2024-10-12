@@ -5,7 +5,7 @@ import { RootState } from "./Store/Store"
 
 function App() {
  //const isLogin = useSelector((state: RootState) => state.User.user.isLoggedIn)
-  const isLogin = true
+  const isLogin = false
   return (
     <>
       {isLogin ? <PrivateRoute /> : <PublicRoutes />}
