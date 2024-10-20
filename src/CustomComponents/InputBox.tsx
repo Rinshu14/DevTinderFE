@@ -13,7 +13,7 @@ const InputBox = forwardRef<HTMLInputElement, InputBoxProps>(({ placeholder, typ
   
 
     return (
-        <input type={type} placeholder={placeholder} ref={ref} {...props} onChange={(e) => {if(validate)setError(!validate(e.target.value))}} className={`input input-bordered w-full max-w-xs ${error ? "input-error" : ""} `} />
+        <input type={type} placeholder={placeholder} ref={ref} {...props} onChange={(e) => {if(validate)setError(!validate(e.target.value))}} className={`input input-bordered w-full max-w-xs  ${error ? "input-error" : ""} `} style={{outline:"none"}} />
     )
 })
 

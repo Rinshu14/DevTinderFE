@@ -1,22 +1,33 @@
 
 import SignUpForm from '../Component/SignUpForm'
-import { BrowserRouter, Route, Routes, Navigate } from 'react-router-dom'
+import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import Login from '../Component/Login'
+import PublicBody from '../Component/PublicBody'
 
 
 const PublicRoutes = () => {
   console.log("PublicRoutes")
+  const appRouter = createBrowserRouter([
+    {
+      path: '/',
+      element: <PublicBody />,
+      children: [{
+        path: '/',
+        element: <Login />
+      },
+      {
+        path: '/signup',
+        element: <SignUpForm />
+      },
+      {
+        path: '*',
+        element: <Login />
+      }
+      ]
+    }
+  ])
   return (
-    <>
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<SignUpForm />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/signup" element={<SignUpForm />} />
-          <Route path="*" element={<Navigate to="/login" />} />
-        </Routes>
-      </BrowserRouter>
-    </>
+    <RouterProvider router={appRouter} />
   )
 }
 

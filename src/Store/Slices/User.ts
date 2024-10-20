@@ -1,7 +1,6 @@
-import loginRequest from "../../Types/InputBoxPropsTypes"
+import { loginRequest, profileView } from "../../Services/UserAsync"
 import { createSlice } from "@reduxjs/toolkit"
 import { PayloadAction } from "@reduxjs/toolkit"
-
 type User = {
     firstName: string,
     lastName: string,
@@ -9,6 +8,7 @@ type User = {
     age?: number
     gender?: string
     skills?: string[]
+    theme?: string
 }
 interface UserState {
     user: User
@@ -23,33 +23,54 @@ export const UserSlice = createSlice({
     initialState: {} as UserState,
     reducers: {
         setUser: (state: UserState, action: PayloadAction<User>) => {
-
             state.user = action.payload
             return state
+        },
+        setTheme:(state:UserState,action:PayloadAction<string>)=>{
+
+            state.user.theme=action.payload
+            
         }
     },
     extraReducers: (builder) => {
         builder.addCase(loginRequest.pending, (state) => {
             state.loading = true
             state.error = ""
+
         })
         builder.addCase(loginRequest.fulfilled, (state, action: PayloadAction<{ data: User, message: string }>) => {
-            console.log("from fullfilled")
-            console.log(action.payload)
+
             state.loading = false
             state.error = ""
+            state.isLoggedIn = true
             state.user = action.payload.data
-
             return state
-
         })
-        builder.addCase(loginRequest.rejected, (state, action) => {
-
+        builder.addCase(loginRequest.rejected, (state, action: any) => {
             state.loading = false
             state.error = action.payload
         })
-    }
+        builder.addCase(profileView.pending, (state) => {
+        
+            state.loading = true;
+            state.error = ""
+
+        })
+        builder.addCase(profileView.fulfilled, (state, action: PayloadAction<{ data: User, message: string }>) => {
+            state.loading = false
+            state.isLoggedIn = true
+
+           
+            state.user = action.payload.data
+        })
+        builder.addCase(profileView.rejected, (state, action: any) => {
+            state.loading = true;
+            state.error = action.payload
+        })
+    },
+
+
 })
-export const { setUser } = UserSlice.actions
+export const { setUser,setTheme } = UserSlice.actions
 export default UserSlice.reducer
 

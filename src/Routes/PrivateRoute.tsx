@@ -1,8 +1,9 @@
 
-import { createBrowserRouter, Navigate,RouterProvider } from 'react-router-dom'
+import { createBrowserRouter, Navigate, RouterProvider } from 'react-router-dom'
 import Body from '../Component/Body'
 import Feed from '../Component/Feed'
 import ErrorElement from '../Component/ErrorElement'
+import Profile from '../Component/Profile'
 
 
 const PrivateRoute = () => {
@@ -13,23 +14,22 @@ const PrivateRoute = () => {
       element: <Body />,
       errorElement: <ErrorElement />,
       children: [{
-        path: "/feed",
+        path: "/",
         element: <Feed />
       },
       {
-        path:"*",
-        element:<Navigate to="/login" />
-
+        path:"/Profile",
+        element:<Profile/>
+      },
+      {
+        path: "*",
+        element: <Navigate to="/login" />
       }
       ]
-
-
     }
   ])
   return (
-  
     <RouterProvider router={appRouter} />
-    
   )
 }
 

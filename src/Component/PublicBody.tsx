@@ -1,17 +1,16 @@
 
-
 import Navbar from './Navbar'
 import { Outlet } from 'react-router-dom'
 
-
-
-const Body = () => {
+const PublicBody = () => {
   return (
     <>
-      <Navbar />
-      <Outlet />
+    <Navbar/>
+    <Outlet/>
+
+  
     </>
   )
 }
 
-export default Body
+export default PublicBody
