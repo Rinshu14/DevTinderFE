@@ -4,6 +4,8 @@ import Body from '../Component/Body'
 import Feed from '../Component/Feed'
 import ErrorElement from '../Component/ErrorElement'
 import Profile from '../Component/Profile'
+import ConnectionList from '../Component/ConnectionRequestList'
+import ConnectionsList from '../Component/ConnectionsList'
 
 
 const PrivateRoute = () => {
@@ -20,6 +22,14 @@ const PrivateRoute = () => {
       {
         path:"/Profile",
         element:<Profile/>
+      },
+      {
+        path:"/connections",
+        element:<ConnectionsList/>
+      },
+      {
+        path:"/connectionRequest",
+        element:<ConnectionList/>
       },
       {
         path: "*",

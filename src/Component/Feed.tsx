@@ -1,23 +1,31 @@
 
-
-
+import UseAppDispatch from "../Hooks/UseAppDispatch";
+import { getFeed } from "../Services/FeedAsync"
+import { useEffect } from "react";
+import UserCard from "./UserCard";
 import UseAppSelector from "../Hooks/UseAppSelector";
 
 
 
 const Feed = () => {
+
+const feed=UseAppSelector((state)=>state.Feed.feed)
+
+  
+const dispatch = UseAppDispatch()
+  useEffect(()=>{
+dispatch(getFeed())
+  },[])
+
  
 
-  const userName=UseAppSelector((state)=>state.User?.user?.firstName)
-
-  const handleClick = () => {
-    
-  }
-
   return (
-    <div>Feed
-     <p>{userName}</p>
-      <button onClick={handleClick}>click</button>
+    <div>
+    
+      <div className="flex justify-center">
+
+      {feed && <UserCard user={feed[0]} />}
+      </div>
     </div>
   )
 }

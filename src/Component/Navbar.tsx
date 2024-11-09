@@ -3,40 +3,63 @@ import { Link } from 'react-router-dom'
 import { useNavigate } from "react-router-dom"
 import NightIcon from "../Assests/night-mode.svg"
 import LightIcon from "../Assests/Sun.png"
+import Logout from "../Assests/logout.png"
 import UseAppDispatch from "../Hooks/UseAppDispatch"
 import { setTheme } from "../Store/Slices/User"
+import { setThemeInLocalStorage } from "../Utils/LocalStorage"
+import { logoutRequest } from "../Services/UserAsync"
 
 const Navbar = () => {
 
   let user = UseAppSelector((state) => state.User.user)
-  let theme=user?.theme
+  let theme = user?.theme
   const navigate = useNavigate()
   const dispatch = UseAppDispatch()
   let profileClick = () => {
     navigate("/profile")
   }
-  const handleThemeClick=()=>{
-
-    dispatch(setTheme(theme=="dark"?"cupcake":"dark"))
+  const handleThemeClick = () => {
+    let themeToSet = (theme == "dark" ? "cupcake" : "dark")
+    dispatch(setTheme(themeToSet))
+    setThemeInLocalStorage(user.userId, themeToSet)
   }
-  return (
-    <div className="navbar bg-base-200">
-      <div className="flex-1">
 
+  const handleLogoutClick = () => {
+    dispatch(logoutRequest(user.userId))
+  }
+
+  const connectionRequestClick = () => {
+    navigate("/connectionRequest")
+  }
+  const connectionClick = () => {
+    navigate("/connections")
+  }
+
+  return (
+    <div className="navbar bg-base-200 h-[1rem]">
+      <div className="flex-1">
         <Link to="/" className="btn btn-ghost text-xl">DevTinder</Link>
+      </div>
+      <div>
+        <p className="cursor-pointer mx-6" onClick={connectionClick}>
+          Connections
+        </p>
+        <p className="cursor-pointer mx-6" onClick={connectionRequestClick}>
+          Connections Requests
+        </p>
       </div>
       <div className="flex-none gap-2">
         <div tabIndex={0} role="button" className="h-8 w-8 rounded-lg btn-circle btn-ghost  avatar ">
           <div className="w-7 rounded-full  ">
-            <img src={(theme=="dark")?LightIcon:NightIcon} alt="dark mode" style={{color:"white"}} onClick={handleThemeClick}/>
+            <img src={(theme == "dark") ? LightIcon : NightIcon} alt="dark mode" style={{ color: "white" }} onClick={handleThemeClick} />
 
           </div>
 
 
         </div>
-       
+
         {(user) ? <p>Welcome {user.firstName}</p> : <></>}
-        <div className="dropdown dropdown-end mr-6">
+        <div className="dropdown dropdown-end">
           <div tabIndex={1} role="button" className="btn btn-ghost btn-circle avatar ">
             <div className="w-10 rounded-full  ">
               <img
@@ -63,7 +86,15 @@ const Navbar = () => {
           </ul> */}
 
         </div>
+        {user &&
+          <div tabIndex={0} role="button" className="h-8 w-8 rounded-lg btn-circle btn-ghost  avatar mr-6 ">
+            <div className="w-7 rounded-full  ">
+              <img src={Logout} alt="dark mode" onClick={handleLogoutClick} />
 
+            </div>
+
+
+          </div>}
       </div>
     </div>
   )

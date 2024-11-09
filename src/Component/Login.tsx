@@ -34,7 +34,7 @@ const Login = () => {
         <InputBox placeholder="Password" type="password" validate={passwordValidator} ref={passwordRef} />
         <label>Already have an account | <span className="underline cursor-pointer">Log in</span></label>
         <p>{errordata}</p>
-        <Button text="SIGN UP" onClick={loginClick} />
+        <Button text="SIGN UP" category={"primary"}onClick={loginClick} />
       </div>
     </div>
   )

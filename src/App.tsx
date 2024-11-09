@@ -8,7 +8,7 @@ import { profileView } from "./Services/UserAsync"
 function App() {
 
   const theme = UseAppSelector((state) => state.User?.user?.theme) || "cupcake"
-  console.log("theme==", theme)
+
   const isLogin = UseAppSelector((state) => state.User.isLoggedIn)
   const dispatch = UseAppDispatch()
 
@@ -16,14 +16,10 @@ function App() {
     document.querySelector('body')?.setAttribute('data-theme', theme);
   }, [theme])
   useEffect(() => {
-
     dispatch(profileView())
-
-
   }, [])
 
   return (
-
     <>
       {isLogin ? <PrivateRoute /> : <PublicRoutes />}
     </>

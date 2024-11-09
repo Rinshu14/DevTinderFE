@@ -16,4 +16,8 @@ const passwordValidator = (password:string) => {
 const usernameValidator = (username:string) => {
     return validator.isAlphanumeric(username)
 }
-export {emailValidator, passwordValidator,usernameValidator}
+
+const ageValidator=(age:string)=>{
+    return (parseInt(age)<18)?false:true
+}
+export {emailValidator, passwordValidator,usernameValidator, ageValidator}
