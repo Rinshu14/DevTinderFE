@@ -33,7 +33,7 @@ const PrivateRoute = () => {
       },
       {
         path: "*",
-        element: <Navigate to="/login" />
+        element: <Navigate to="/" />
       }
       ]
     }

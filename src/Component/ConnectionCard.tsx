@@ -6,14 +6,14 @@ const ConnectionCard = ({user}) => {
     const {firstName,lastName}=user
     return (
         <div className=" bg-base-300 max-w-2xl shadow-xl  my-5 flex rounded-lg">
-            {/* <figure> */}
+           
             <img className={` w-[6rem] rounded-lg `}
                 src={(photoUrl) ? photoUrl : defaultUserImage}
                 alt="User image"
 
             />
 
-            {/* </figure> */}
+           
             <div className="card-body overflow-auto max-h-[7rem]  p-[1rem]" >
                 <h4 className="card-title leading-3" >{firstName} {lastName}</h4>
 

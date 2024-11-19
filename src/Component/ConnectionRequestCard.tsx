@@ -1,19 +1,21 @@
 import UseAppDispatch from "../Hooks/UseAppDispatch";
 import { accept, reject, defaultUserImage } from "../Utils/Constants";
 import Button from "../CustomComponents/Button";
-import { ConnectionRequestType } from "../Types/User"
 import { reviewConnectionRequest } from "../Services/ConnectionAsync"
+import { ConnectionRequestType } from "../Types/User";
 
-
-type ConnectionRequestProps = {
-    request: ConnectionRequestType
+type ConnectionRequestCardProps={
+    request:ConnectionRequestType
 }
 
-const ConnectionRequestCard = ({ request }: ConnectionRequestProps) => {
+const ConnectionRequestCard = ({ request }: ConnectionRequestCardProps ) => {
 
     
     // if (!user) return <></>
-    const { firstName, lastName, about, age, gender, photoUrl } = request?.fromUserId
+
+   
+
+    const { firstName, lastName, about, age, gender, photoUrl } = request.fromUserId
     const dispatch = UseAppDispatch();
     const handleRejectClick = () => {
         dispatch(reviewConnectionRequest({ status: reject, reqId: request?._id }))
@@ -24,7 +26,7 @@ const ConnectionRequestCard = ({ request }: ConnectionRequestProps) => {
 
 
     return (
-        <div className=" bg-base-300 max-w-2xl shadow-xl  my-5 flex rounded-lg">
+        <div className=" bg-base-300 min-w-[35rem] max-w-2xl shadow-xl  my-5 flex rounded-lg">
             {/* <figure> */}
             <img className={` w-[9rem] rounded-lg `}
                 src={(photoUrl) ? photoUrl : defaultUserImage}

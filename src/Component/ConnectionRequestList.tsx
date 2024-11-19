@@ -14,11 +14,13 @@ const ConnectionRequestList = () => {
     useEffect(() => {
         dispatch(fetchConnectionRequest())
     }, [])
+
     if (PendingConnectionRequest.length == 0) return <></>
     return (
-        <div className=" w-[48rem] m-auto">
-            {PendingConnectionRequest.map((user) => {
-                return <ConnectionRequestCard key={user._id} request={user} />
+        <div className=" ">
+           <h1 className="text-3xl font-bold">Let’s Give This a Quick Look!</h1>
+            {PendingConnectionRequest.map((request) => {
+                return <ConnectionRequestCard key={request._id} request={request}  />
             })}
         </div>
     )

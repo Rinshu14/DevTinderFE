@@ -1,8 +1,9 @@
 
-import SignUpForm from '../Component/SignUpForm'
+
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
-import Login from '../Component/Login'
+import AuthenticationForm from '../Component/AuthenticationForm'
 import PublicBody from '../Component/PublicBody'
+import {login,signUp} from "../Utils/Constants"
 
 
 const PublicRoutes = () => {
@@ -13,15 +14,15 @@ const PublicRoutes = () => {
       element: <PublicBody />,
       children: [{
         path: '/',
-        element: <Login />
+        element: <AuthenticationForm formType={login}/>
       },
       {
         path: '/signup',
-        element: <SignUpForm />
+        element: <AuthenticationForm formType={signUp}/>
       },
       {
         path: '*',
-        element: <Login />
+        element: <AuthenticationForm formType={login} />
       }
       ]
     }

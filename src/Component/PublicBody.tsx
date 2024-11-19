@@ -5,10 +5,16 @@ import { Outlet } from 'react-router-dom'
 const PublicBody = () => {
   return (
     <>
-    <Navbar/>
-    <Outlet/>
+      <Navbar />
 
-  
+      <div className='flex' style={{ "height": "calc(100vh - 64px)" }}>
+
+        <Outlet />
+      </div>
+
+
+
+
     </>
   )
 }

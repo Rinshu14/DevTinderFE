@@ -1,8 +1,9 @@
-import { loginRequest, logoutRequest, profileView, profileUpdate } from "../../Services/UserAsync"
+import { loginRequest, logoutRequest, profileView, profileUpdate,signupRequest } from "../../Services/UserAsync"
 import { createSlice } from "@reduxjs/toolkit"
 import { PayloadAction } from "@reduxjs/toolkit"
-import { getThemeFromLocalStorage } from "../../Utils/LocalStorage"
-import {User} from "../../Types/User"
+import { User } from "../../Types/User"
+
+
 interface UserState {
     user: User
     loading: boolean
@@ -19,11 +20,7 @@ export const UserSlice = createSlice({
             state.user = action.payload
             return state
         },
-        setTheme: (state: UserState, action: PayloadAction<string>) => {
 
-            state.user.theme = action.payload
-
-        }
     },
     extraReducers: (builder) => {
         builder.addCase(loginRequest.pending, (state) => {
@@ -43,6 +40,23 @@ export const UserSlice = createSlice({
             state.loading = false
             state.error = action.payload
         })
+        builder.addCase(signupRequest.pending, (state) => {
+            state.loading = true
+            state.error = ""
+
+        })
+        builder.addCase(signupRequest.fulfilled, (state, action: PayloadAction<{ data: User, message: string }>) => {
+
+            state.loading = false
+            state.error = ""
+            state.isLoggedIn = true
+            state.user = action.payload.data
+            return state
+        })
+        builder.addCase(signupRequest.rejected, (state, action: any) => {
+            state.loading = false
+            state.error = action.payload
+        })
         builder.addCase(profileView.pending, (state) => {
 
             state.loading = true;
@@ -55,9 +69,7 @@ export const UserSlice = createSlice({
 
 
             state.user = action.payload.data
-            let theme = getThemeFromLocalStorage(state.user.userId)
-            state.user.theme = theme
-            //  return state
+
 
         })
         builder.addCase(profileView.rejected, (state, action: any) => {
@@ -66,6 +78,7 @@ export const UserSlice = createSlice({
         })
         builder.addCase(logoutRequest.fulfilled, (state) => {
             state.user = {} as User
+
             state.isLoggedIn = false
         })
         builder.addCase(logoutRequest.rejected, (state) => {
@@ -75,18 +88,17 @@ export const UserSlice = createSlice({
             console.log("in pending")
         })
         builder.addCase(profileUpdate.fulfilled, (state, action: PayloadAction<{ data: User, message: string }>) => {
-            console.log(action.payload)
+            state.user = action.payload.data
 
-            state.user=action.payload.data
-            //return state
         })
-        builder.addCase(profileUpdate.rejected, (state, action: PayloadAction<{ data: User, message: string }>) => {
+        builder.addCase(profileUpdate.rejected, (state, action) => {
+            console.log(action)
             console.log("in rejected")
         })
     },
 
 
 })
-export const { setUser, setTheme } = UserSlice.actions
+export const { setUser, } = UserSlice.actions
 export default UserSlice.reducer
 

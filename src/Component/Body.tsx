@@ -9,7 +9,11 @@ const Body = () => {
   return (
     <>
       <Navbar />
-      <Outlet />
+      <div className='flex items-center justify-center ' style={{ "height": "calc(100vh - 64px)" }}>
+
+        <Outlet />
+      </div>
+
     </>
   )
 }
