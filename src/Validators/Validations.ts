@@ -1,5 +1,5 @@
 import validator from 'validator'
-import { Gender } from "../Utils/Constants"
+import { appGenderEnum } from "../Utils/ApplicationConstants"
 
 const emailValidator = (email: string) => {
     return validator.isEmail(email)
@@ -21,8 +21,8 @@ const usernameValidator = (username: string) => {
 const ageValidator = (age: string) => {
     return (parseInt(age) < 18) ? false : true
 }
-function genderValidator(gender: string): boolean {
-    return gender === Gender.male || gender === Gender.female || gender === Gender.others;
-}
+// function genderValidator(gender: string): boolean {
+//     return gender === appGenderEnum.male || gender === appGenderEnum.female || gender === appGenderEnum.others;
+// }
 
-export { emailValidator, passwordValidator, usernameValidator, ageValidator, genderValidator }
+export { emailValidator, passwordValidator, usernameValidator, ageValidator}

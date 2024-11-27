@@ -1,5 +1,6 @@
 import axios from "axios"
 import { createAsyncThunk } from "@reduxjs/toolkit"
+import { genderEnum } from "../Types/Enums"
 
 
 type loginRequest = {
@@ -10,7 +11,9 @@ type signUpRequest = {
     emailId: string,
     password: string,
     firstName:string,
-    age:number
+    age:number,
+    gender:genderEnum
+
 }
 export const loginRequest = createAsyncThunk("users/loginStatus", async (data: loginRequest, thunkAPI) => {
     try {
@@ -29,7 +32,7 @@ export const signupRequest = createAsyncThunk("users/signUp", async (data: signU
         const response = await axios.post(`${import.meta.env.VITE_BASEAPIURL}${import.meta.env.VITE_SIGNUPURL}`,
             data,
             { withCredentials: true })
-            console.log(data)
+            
         return response.data
     }
     catch (err: any) {
@@ -62,7 +65,7 @@ export const profileUpdate = createAsyncThunk("users/profileUpdate", async (user
 
 })
 
-export const logoutRequest = createAsyncThunk("users/logoutRequest", async (userId: string, thunkAPI) => {
+export const logoutRequest = createAsyncThunk("users/logoutRequest", async (_, thunkAPI) => {
     try {
         const response = await axios.post(`${import.meta.env.VITE_BASEAPIURL}${import.meta.env.VITE_LOGOUTURL}`, {}, { withCredentials: true })
         return response.data

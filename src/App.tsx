@@ -1,39 +1,43 @@
 import PrivateRoute from "./Routes/PrivateRoute"
-import PublicRoutes from './Routes/PublicRoutes'
+import PublicRoute from './Routes/PublicRoutes'
 import { useEffect } from "react"
 import UseAppSelector from "./Hooks/UseAppSelector"
 import UseAppDispatch from "./Hooks/UseAppDispatch"
 import { profileView } from "./Services/UserAsync"
-import { light, keyForThemeInLocalStorage } from "./Utils/Constants"
+import {  keyForThemeInLocalStorage, themes } from "./Utils/ApplicationConstants"
 import { getThemeFromLocalStorage } from "./Utils/LocalStorage"
-import { useNavigate } from "react-router-dom"
+
+import ToastManager from "./CustomComponents/ToastManager"
 
 function App() {
 
-  const theme = UseAppSelector((state) => state.User?.user?.theme) || (getThemeFromLocalStorage(keyForThemeInLocalStorage) || light)
+  const theme = UseAppSelector((state) => state.User?.user?.theme) || (getThemeFromLocalStorage(keyForThemeInLocalStorage) || themes.light)
   const isLogin = UseAppSelector((state) => state.User.isLoggedIn)
   const dispatch = UseAppDispatch()
-//  const navigate=useNavigate()
+
 
   useEffect(() => {
     document.querySelector('body')?.setAttribute('data-theme', theme);
   }, [theme])
-  
+
   useEffect(() => {
-   // isLogin && navigate("/")
-   dispatch(profileView())
+
+    dispatch(profileView())
 
   }, [])
 
   return (
     <>
-      {isLogin ? <PrivateRoute /> : <PublicRoutes />}
-    </>
+      <ToastManager />
+      {isLogin ? <PrivateRoute /> : <PublicRoute />}
 
+    </>
   )
 
 
+
 }
+
 
 
 export default App

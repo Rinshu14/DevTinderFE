@@ -1,7 +1,7 @@
-import { loginRequest, logoutRequest, profileView, profileUpdate,signupRequest } from "../../Services/UserAsync"
+import { loginRequest, logoutRequest, profileView, profileUpdate, signupRequest } from "../../Services/UserAsync"
 import { createSlice } from "@reduxjs/toolkit"
 import { PayloadAction } from "@reduxjs/toolkit"
-import { User } from "../../Types/User"
+import { User } from "../../Types/CommonTypes"
 
 
 interface UserState {
@@ -16,9 +16,9 @@ export const UserSlice = createSlice({
     name: "User",
     initialState: {} as UserState,
     reducers: {
-        setUser: (state: UserState, action: PayloadAction<User>) => {
-            state.user = action.payload
-            return state
+        setUser: (state: UserState, action: PayloadAction<{ name: string, lastName: string }>) => {
+            console.log(action.payload)
+
         },
 
     },
@@ -66,11 +66,7 @@ export const UserSlice = createSlice({
         builder.addCase(profileView.fulfilled, (state, action: PayloadAction<{ data: User, message: string }>) => {
             state.loading = false
             state.isLoggedIn = true
-
-
             state.user = action.payload.data
-
-
         })
         builder.addCase(profileView.rejected, (state, action: any) => {
             state.loading = true;

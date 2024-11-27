@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit"
-import { ConnectionType } from "../../Types/User"
+import { ConnectionType } from "../../Types/CommonTypes"
 import { fetchConnections } from "../../Services/ConnectionAsync"
 
 

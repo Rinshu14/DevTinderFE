@@ -1,15 +1,14 @@
-import React from 'react'
+import { BaseToastType } from "../Types/CommonTypes"
 
-const Toast = () => {
+const Toast = ({message,type}:BaseToastType) => {
+
   return (
-    <div><div className="toast toast-top toast-start">
-    <div className="alert alert-info">
-      <span>New mail arrived.</span>
+    <div className="toast toast-top toast-center z-50 mt-10">
+    <div className={`alert alert-${type}`}>
+      <span>{message}</span>
     </div>
-    <div className="alert alert-success">
-      <span>Message sent successfully.</span>
-    </div>
-  </div></div>
+    
+  </div>
   )
 }
 

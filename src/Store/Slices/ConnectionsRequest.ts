@@ -1,9 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit"
-import { ConnectionRequestType } from "../../Types/User"
+import { ConnectionRequestType } from "../../Types/CommonTypes"
 import { fetchConnectionRequest, reviewConnectionRequest } from "../../Services/ConnectionAsync"
-
-
-
 
 const ConnectionRequest = createSlice({
     name: "ConnectionRequest",
@@ -25,11 +22,10 @@ const ConnectionRequest = createSlice({
         builder.addCase(reviewConnectionRequest.pending, (state, action) => {
             console.log("pending ")
         })
-        builder.addCase(reviewConnectionRequest.fulfilled, (state, action: PayloadAction<string>) => {
-            console.log("fullfilled")
-            console.log(action.payload)
-           return state.filter((item) => item._id !== action.payload)
-            // return action.payload
+        builder.addCase(reviewConnectionRequest.fulfilled, (state, action ) => {
+      
+            return state.filter((item) => item._id !== action.payload.data._id)
+    
         })
         builder.addCase(reviewConnectionRequest.rejected, (state, action) => {
             console.log("in rejected ")

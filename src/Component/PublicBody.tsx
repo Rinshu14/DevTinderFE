@@ -7,7 +7,7 @@ const PublicBody = () => {
     <>
       <Navbar />
 
-      <div className='flex' style={{ "height": "calc(100vh - 64px)" }}>
+      <div className='flex ' style={{ "height": "calc(100vh - 64px)" }}>
 
         <Outlet />
       </div>

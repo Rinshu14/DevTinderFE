@@ -8,25 +8,39 @@ import LightThemeIcon from "../Assests/icons8-sun-100.png"
 import UseAppDispatch from "../Hooks/UseAppDispatch"
 import { setThemeInLocalStorage, getThemeFromLocalStorage } from "../Utils/LocalStorage"
 import { logoutRequest } from "../Services/UserAsync"
-import { ConnectionRequest, Connections, light, keyForThemeInLocalStorage } from "../Utils/Constants"
-import { defaultUserImage } from "../Utils/Constants"
-import { useState } from "react"
+import { ConnectionRequest, Connections, themes, keyForThemeInLocalStorage } from "../Utils/ApplicationConstants"
+import { defaultUserImage } from "../Utils/ApplicationConstants"
+import { useState, useEffect } from "react"
+
 
 const Navbar = () => {
 
   const isLoggedIn = UseAppSelector((state) => state.User.isLoggedIn)
   const user = UseAppSelector((state) => state.User.user)
   const [theme, setTheme] = useState(user?.theme)
+  const [dropDownVisible, setDropDownVisible] = useState(false)
+
 
   const navigate = useNavigate()
   const dispatch = UseAppDispatch()
 
 
+  useEffect(() => {
+    if (!theme) {
+      setTheme(getThemeFromLocalStorage(keyForThemeInLocalStorage) == themes.dark ? themes.dark : themes.light)
+    }
+  }, [])
+
   let profileClick = () => {
     navigate("/profile")
   }
+
+  let HomeClick = () => {
+    navigate("/")
+  }
+
   const handleThemeClick = () => {
-    let themeToSet = (theme) ? (theme == "dark" ? "cupcake" : "dark") : (getThemeFromLocalStorage(keyForThemeInLocalStorage) == "dark" ? "cupcake" : "dark")
+    let themeToSet = (theme) ? (theme == themes.dark ? themes.light : themes.dark) : (getThemeFromLocalStorage(keyForThemeInLocalStorage) == themes.dark ? themes.light : themes.dark)
 
     setThemeInLocalStorage(keyForThemeInLocalStorage, themeToSet)
     document.querySelector('body')?.setAttribute('data-theme', themeToSet);
@@ -34,7 +48,7 @@ const Navbar = () => {
   }
 
   const handleLogoutClick = () => {
-    dispatch(logoutRequest(user._id))
+    dispatch(logoutRequest())
     navigate('/');
   }
 
@@ -46,15 +60,16 @@ const Navbar = () => {
   }
 
   return (
-    <div className="navbar bg-base-200 h-[1rem]">
+    <div className="navbar bg-base-200 h-[1rem] ">
       <div className="flex-1">
+        <img src={"../../public/DevTinder.webp"} className="w-12 rounded-full " />
         <Link to="/" className="btn btn-ghost text-xl">DevTinder</Link>
       </div>
 
       <div className="flex-none gap-2">
         {(!isLoggedIn) && <div tabIndex={0} role="button" className="h-8 w-8 rounded-lg btn-circle btn-ghost  avatar ">
           <div className="w-7 rounded-full  ">
-            <img src={(theme == "dark") ? LightThemeIcon : NightThemeIcon} alt="dark mode" style={{ color: "white" }} onClick={handleThemeClick} />
+            <img src={(theme == themes.dark) ? LightThemeIcon : NightThemeIcon} alt="dark mode" style={{ color: "white" }} onClick={handleThemeClick} />
 
           </div>
 
@@ -76,7 +91,9 @@ const Navbar = () => {
 
           {isLoggedIn && <ul
             tabIndex={0}
-            className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow">
+            // ${dropDownVisible}
+            className={`menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow `}>
+            <li> <a className="justify-between" onClick={HomeClick} >Home</a></li>
             <li>
               <a className="justify-between" onClick={profileClick} >
                 Profile
@@ -91,7 +108,7 @@ const Navbar = () => {
         {isLoggedIn &&
           <div tabIndex={0} role="button" className="h-8 w-8 rounded-lg btn-circle btn-ghost  avatar mr-6 ">
             <div className="w-7 rounded-full  ">
-              <img src={(user.theme == light) ? Black_Logout : White_Logout} alt="Logout" onClick={handleLogoutClick} />
+              <img src={(user.theme == themes.light) ? Black_Logout : White_Logout} alt="Logout" onClick={handleLogoutClick} />
 
             </div>
 

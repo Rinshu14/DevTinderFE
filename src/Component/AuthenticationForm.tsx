@@ -1,17 +1,18 @@
-import { loginRequest,signupRequest } from "../Services/UserAsync"
+import { loginRequest, signupRequest } from "../Services/UserAsync"
 import UseAppDispatch from "../Hooks/UseAppDispatch"
-import UseAppSelector from "../Hooks/UseAppSelector"
 import { useRef, useState } from "react"
 import InputBox from "../CustomComponents/InputBox"
 import Button from "../CustomComponents/Button"
-import { emailValidator, passwordValidator, usernameValidator, ageValidator,genderValidator } from "../Validators/Validations"
-import { login, signUp,male,female,others } from "../Utils/Constants"
+import { emailValidator, passwordValidator, usernameValidator, ageValidator } from "../Validators/Validations"
+import { login, signUp,AuthenticationFormLoginText, AuthenticationFormSignUpText } from "../Utils/ApplicationConstants"
 import { useNavigate } from "react-router-dom"
-import { useEffect } from "react"
+import { AuthenticationFormTypes } from "../Types/Enums"
+import { genderEnum } from "../Types/Enums"
+
 
 
 type AuthenticationFormProps = {
-  formType: string
+  formType: AuthenticationFormTypes
 }
 
 const AuthenticationForm = ({ formType }: AuthenticationFormProps) => {
@@ -24,54 +25,39 @@ const AuthenticationForm = ({ formType }: AuthenticationFormProps) => {
   const ageRef = useRef<HTMLInputElement>(null)
   const genderRef = useRef<HTMLSelectElement>(null)
 
-
-  // const isLoggedIn=UseAppSelector((state)=>state.User.isLoggedIn)
-
-  const message = (formType == login) ? "New User? " : "Already have an acount ? "
-
+  const message = (formType == AuthenticationFormTypes.login) ? AuthenticationFormLoginText : AuthenticationFormSignUpText
   const [errordata, setErrorData] = useState<string>("")
 
 
-
-
-  // useEffect(() => {
-  //   if (isLoggedIn) {
-  //     navigate('/');
-  //   }
-  // }, [isLoggedIn]);
-
-
   const AuthenticationFormClick = () => {
-
-    if (formType == login) {
-      if (emailRef.current && passwordRef.current ) {
+    if (formType == AuthenticationFormTypes.login) {
+      if (emailRef.current && passwordRef.current) {
         if (emailValidator(emailRef.current.value) && passwordValidator(passwordRef.current.value)) {
           setErrorData("")
           dispatch(loginRequest({ emailId: emailRef.current.value, password: passwordRef.current.value }))
         }
-        else setErrorData("Invalid Details")
+        else {
 
-      }
-    }
-    else{
-      if (emailRef.current && passwordRef.current && firstNameRef.current && ageRef.current && genderRef.current) {
-        if (emailValidator(emailRef.current.value) && passwordValidator(passwordRef.current.value) && ageValidator(ageRef.current.value) && usernameValidator(firstNameRef.current.value) && genderValidator(genderRef.current.value)) {
-          setErrorData("")
-          dispatch(signupRequest({ emailId: emailRef.current.value, password: passwordRef.current.value,age:parseInt(ageRef.current.value),firstName:firstNameRef.current.value }))
+          setErrorData("Invalid Details")
         }
-        else setErrorData("Invalid Details")
-
       }
     }
-
+    else {
+      if (emailRef.current && passwordRef.current && firstNameRef.current && ageRef.current && genderRef.current) {
+        if (emailValidator(emailRef.current.value) && passwordValidator(passwordRef.current.value) && ageValidator(ageRef.current.value) && usernameValidator(firstNameRef.current.value) ) {
+          setErrorData("")
+          dispatch(signupRequest({ emailId: emailRef.current.value, password: passwordRef.current.value, age: parseInt(ageRef.current.value), firstName: firstNameRef.current.value, gender: genderRef.current.value.toLocaleLowerCase() as genderEnum}))
+        }
+        else {
+          setErrorData("Invalid Details")
+        }
+      }
+    }
   }
 
   const navigateToOther = () => {
-    (formType == login) ? navigate("/signup") : navigate("/")
+    (formType == AuthenticationFormTypes.login) ? navigate(`/${AuthenticationFormTypes.signUp}`) : navigate("/")
   }
-
-
-
 
   return (
     <div className="card bg-base-300 w-96 shadow-xl m-auto  ">
@@ -80,22 +66,23 @@ const AuthenticationForm = ({ formType }: AuthenticationFormProps) => {
           <InputBox placeholder="Email" type="email" validate={emailValidator} ref={emailRef} />
           <InputBox placeholder="Password" type="password" validate={passwordValidator} ref={passwordRef} />
         </>
-
-        {(formType == signUp) && <>
+        {(formType == AuthenticationFormTypes.signUp) && <>
           <InputBox placeholder="First Name" type="text" validate={usernameValidator} ref={firstNameRef} />
           <InputBox placeholder="Age" type="number" validate={ageValidator} ref={ageRef} />
-          <select className="input select-bordered w-full max-w-xs" style={{ outline: "none" }}  ref={genderRef}>
-              <option value="" hidden>Select your gender</option>
-              <option >{male}</option>
-              <option >{female} </option>
-              <option >{others}</option>
-            </select>
+          <select className="input select-bordered w-full max-w-xs" ref={genderRef} style={{ outline: "none" }} >
+            <option value="" hidden>Select an option</option>
+            {
+              Object.values(genderEnum).map((item) => {
+                return <option >{item.charAt(0).toUpperCase() + item.slice(1).toLowerCase()}</option>
+              })
+            }
+          </select>
         </>}
 
-        <label>{message}  <span className="underline cursor-pointer" onClick={navigateToOther}>{(formType == login) ? signUp : login} </span></label>
-        <p>{errordata}</p>
+        <label>{message}  <span className="underline cursor-pointer" onClick={navigateToOther}>{(formType == AuthenticationFormTypes.login) ? signUp : login} </span></label>
+        <p className="text-red-800">{errordata}</p>
 
-        <Button text={(formType == login) ? login : signUp} category={"primary"} onClick={AuthenticationFormClick} />
+        <Button text={(formType == AuthenticationFormTypes.login) ? login : signUp} category={"primary"} onClick={AuthenticationFormClick} />
       </div>
     </div>
   )

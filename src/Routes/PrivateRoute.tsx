@@ -4,12 +4,12 @@ import Body from '../Component/Body'
 import Feed from '../Component/Feed'
 import ErrorElement from '../Component/ErrorElement'
 import Profile from '../Component/Profile'
-import ConnectionList from '../Component/ConnectionRequestList'
+import ConnectionRequestList from '../Component/ConnectionRequestList'
 import ConnectionsList from '../Component/ConnectionsList'
 
 
 const PrivateRoute = () => {
-  console.log("PrivateRoute")
+ 
   const appRouter = createBrowserRouter([
     {
       path: '/',
@@ -29,7 +29,7 @@ const PrivateRoute = () => {
       },
       {
         path:"/connectionRequest",
-        element:<ConnectionList/>
+        element:<ConnectionRequestList/>
       },
       {
         path: "*",

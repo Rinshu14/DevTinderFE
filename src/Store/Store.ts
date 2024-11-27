@@ -1,9 +1,10 @@
 import { configureStore } from "@reduxjs/toolkit";
 import UserSlice from "./Slices/User"
-import { logger } from "./Middleware/logger"
+import { logger } from "./Middleware/LoggerMiddleware"
 import FeedSlice from "./Slices/Feed"
 import ConnectionRequest from "./Slices/ConnectionsRequest"
 import ConnectionsSlice from "./Slices/Connections"
+import { listnerMiddleware } from "./Middleware/ToastMiddleWare";
 
 
 export const store = configureStore({
@@ -15,7 +16,7 @@ export const store = configureStore({
     },
 
     middleware: (getDefaultMiddleware) => {
-        return getDefaultMiddleware().concat(logger)
+        return getDefaultMiddleware().concat(logger,listnerMiddleware.middleware)
     },
 
 })

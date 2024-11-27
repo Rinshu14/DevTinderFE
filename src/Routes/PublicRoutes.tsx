@@ -1,28 +1,27 @@
-
-
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import AuthenticationForm from '../Component/AuthenticationForm'
 import PublicBody from '../Component/PublicBody'
-import {login,signUp} from "../Utils/Constants"
+import { AuthenticationFormTypes } from '../Types/Enums'
 
 
-const PublicRoutes = () => {
-  console.log("PublicRoutes")
+
+const PublicRoute = () => {
+ 
   const appRouter = createBrowserRouter([
     {
       path: '/',
       element: <PublicBody />,
       children: [{
         path: '/',
-        element: <AuthenticationForm formType={login}/>
+        element: <AuthenticationForm formType={AuthenticationFormTypes.login}/>
       },
       {
         path: '/signup',
-        element: <AuthenticationForm formType={signUp}/>
+        element: <AuthenticationForm formType={AuthenticationFormTypes.signUp}/>
       },
       {
         path: '*',
-        element: <AuthenticationForm formType={login} />
+        element: <AuthenticationForm formType={AuthenticationFormTypes.login} />
       }
       ]
     }
@@ -32,4 +31,4 @@ const PublicRoutes = () => {
   )
 }
 
-export default PublicRoutes
+export default PublicRoute
